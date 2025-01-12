@@ -1,0 +1,281 @@
+<Ui xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="ManageDB.lua" />
+	<Frame name="ManageDBFrame" parentKey="Child" inherits="" hidden="true" parent="MainFrame" movable="true" enableMouse="true" enableMouseClicks="true" enableMouseMotion="true">
+		<Size x="686" y="600" />
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<KeyValues>
+			<KeyValue key="backdropInfo" value="BACKDROP_GOLD_DIALOG_32_32" keyType="string" type="global" />
+		</KeyValues>
+		<Frames>
+			<Frame name="RankDBListFrame" inherits="BackdropTemplate" parent="ManageDBFrame">
+				<Size x="300" y="550" />
+				<Anchors>
+					<Anchor x="12" y="-12" point="LEFT" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" keyType="string" type="global" />
+				</KeyValues>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="RankDBListString" inherits="GameFontNormalLarge2" text="Player List">
+							<Size x="140" y="24" />
+							<Anchors>
+								<Anchor x="5" y="-20" point="TOP" />
+							</Anchors>
+						</FontString>
+						<FontString name="NameDBString" inherits="GameFontNormal" text="Player Name">
+							<Size x="80" y="20" />
+							<Anchors>
+								<Anchor x="20" y="-85" point="TOPLEFT" />
+							</Anchors>
+						</FontString>
+						<FontString name="LootedNDBtring" inherits="GameFontNormal" text="Nº Looted Items">
+							<Size x="100" y="20" />
+							<Anchors>
+								<Anchor x="-40" y="-85" point="TOPRIGHT" />
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<ScrollFrame name="RankDBListScrollFrame" inherits="UIPanelScrollFrameTemplate" parent="RankDBListFrame">
+						<Size x="240" y="430" />
+						<Anchors>
+							<Anchor x="20" y="-45" point="LEFT" relativeTo="RankDBListFrame" />
+						</Anchors>
+					</ScrollFrame>
+					<EditBox name="FilterDBEditBox" inherits="InputBoxTemplate">
+						<Size x="111" y="10" />
+						<Anchors>
+							<Anchor x="60" y="-60" point="TOPLEFT" />
+						</Anchors>
+						<Frames>
+							<Button name="ResetFilterTextDBButton" inherits="UIButtonTemplate" parent="FilterDBEditBox" frameLevel="-1" text="">
+								<Size x="15" y="15" />
+								<Anchors>
+									<Anchor x="-5" point="RIGHT" relativeTo="FilterDBEditBox" />
+								</Anchors>
+								<Scripts>
+									<OnClick>
+										ResetDBEditBoxText()
+									</OnClick>
+								</Scripts>
+								<NormalTexture atlas="auctionhouse-ui-filter-redx" />
+								<HighlightTexture alpha="0.4" alphaMode="ADD" atlas="auctionhouse-ui-filter-redx" />
+							</Button>
+						</Frames>
+						<Scripts>
+							<OnLoad>
+								self:Disable()
+							</OnLoad>
+							<OnEnter>
+								self:Enable()
+							</OnEnter>
+							<OnLeave>
+								self:Disable()
+							</OnLeave>
+							<OnTextChanged>
+								SetDBFilterText()
+							</OnTextChanged>
+						</Scripts>
+					</EditBox>
+				</Frames>
+			</Frame>
+			<Frame name="InfoDBFrame" inherits="MenuTemplateBase" parent="ManageDBFrame">
+				<Size x="320" y="116" />
+				<Anchors>
+					<Anchor x="320" y="-40" point="TOPLEFT" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" keyType="string" type="global" />
+				</KeyValues>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="PlayerNameText" inherits="GameFontNormal" text="Player Name: " justifyH="RIGHT">
+							<Size x="110" y="20" />
+							<Anchors>
+								<Anchor x="3" y="-7" point="TOPLEFT" />
+							</Anchors>
+						</FontString>
+						<FontString name="LootText" inherits="GameFontNormal" text="Loot:" justifyH="RIGHT">
+							<Size x="110" y="20" />
+							<Anchors>
+								<Anchor x="3" y="-44" point="TOPLEFT" />
+							</Anchors>
+						</FontString>
+						<FontString name="PlayerNameDBEditText" inherits="GameFontNormal" text="---" justifyH="LEFT">
+							<Size x="197" y="20" />
+							<Anchors>
+								<Anchor x="120" y="-7" point="TOPLEFT" />
+							</Anchors>
+							<Color r="1" g="1" b="1" />
+						</FontString>
+						<FontString name="LootDBEditText" inherits="GameFontNormal" text="---" justifyH="LEFT">
+							<Size x="197" y="20" />
+							<Anchors>
+								<Anchor x="120" y="-44" point="TOPLEFT" />
+							</Anchors>
+							<Color r="1" g="1" b="1" />
+						</FontString>
+						<FontString name="RaidDifficultyString" inherits="GameFontNormal" text="Raid Difficulty:" justifyH="RIGHT">
+							<Size x="110" y="20" />
+							<Anchors>
+								<Anchor x="3" y="-80" point="TOPLEFT" />
+							</Anchors>
+						</FontString>
+						<FontString name="RaidDifficultyDBEditString" inherits="GameFontNormal" text="---" justifyH="LEFT">
+							<Size x="197" y="20" />
+							<Anchors>
+								<Anchor x="120" y="-80" point="TOPLEFT" />
+							</Anchors>
+							<Color r="1" g="1" b="1" />
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame name="IconEquipDBFrame" inherits="TranslucentFrameTemplate" parent="ManageDBFrame" movable="true" enableMouse="true" enableMouseClicks="true" enableMouseMotion="true">
+				<Size x="123" y="116" />
+				<Anchors>
+					<Anchor x="257" y="202" point="CENTER" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" keyType="string" type="global" />
+				</KeyValues>
+				<Layers>
+					<Layer>
+						<Texture name="IconEquipDBTexture">
+							<Size x="99" y="89" />
+							<Anchors>
+								<Anchor x="12" y="-14" point="TOPLEFT" />
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnEnter>
+						ShowDBTooltip(self)
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide()
+					</OnLeave>
+					<OnMouseDown>
+						ResetDBIcon(self, button)
+					</OnMouseDown>
+				</Scripts>
+			</Frame>
+			<Button name="RemoveItemButton" inherits="UIPanelButtonTemplate" parent="ManageDBFrame" enableMouse="true" enableMouseClicks="true" text="Remove Item">
+				<Size x="145" y="52" />
+				<Anchors>
+					<Anchor x="62" y="-21" point="CENTER" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						RemoveItem()
+					</OnClick>
+					<OnLoad>
+						self:Disable()
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Button name="RemovePlayerButton" inherits="UIPanelButtonTemplate" parent="ManageDBFrame" enableMouse="true" enableMouseClicks="true" text="Remove Player">
+				<Size x="145" y="52" />
+				<Anchors>
+					<Anchor x="234" y="-21" point="CENTER" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						RemovePlayer()
+					</OnClick>
+					<OnLoad>
+						self:Disable()
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Frame name="DropdownFrame" inherits="" parent="ManageDBFrame">
+				<Size x="346" y="79" />
+				<Anchors>
+					<Anchor x="146" y="69" point="CENTER" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" keyType="string" type="global" />
+				</KeyValues>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="ItemTypeString" inherits="GameFontNormal" text="Item Type">
+							<Size x="80" y="35" />
+							<Anchors>
+								<Anchor x="-43" y="19" point="RIGHT" />
+							</Anchors>
+						</FontString>
+						<FontString name="RaidDifficultString" inherits="GameFontNormal" text="Raid Difficulty">
+							<Size x="145" y="35" />
+							<Anchors>
+								<Anchor x="17" y="-3" point="TOPLEFT" />
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Frame name="RaidDifficultyDropdown" inherits="UIDropDownMenuTemplate" parent="DropdownFrame">
+						<Size x="100" y="30" />
+						<Anchors>
+							<Anchor x="7" y="-44" point="TOPLEFT" relativeTo="DropdownFrame" />
+						</Anchors>
+						<KeyValues>
+							<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" keyType="string" type="global" />
+						</KeyValues>
+						<Scripts>
+							<OnLoad>
+								self:SetPoint("CENTER");
+								UIDropDownMenu_Initialize(RaidDifficultyDropdown, InitializeRaidDifficultyDropdown);
+								UIDropDownMenu_SetSelectedID(RaidDifficultyDropdown, 1);
+								UIDropDownMenu_JustifyText(RaidDifficultyDropdown, "LEFT");
+								UIDropDownMenu_SetAnchor(RaidDifficultyDropdown, 25, 0, "lEFT")
+							</OnLoad>
+						</Scripts>
+					</Frame>
+					<Frame name="ItemTypeDropdown" inherits="UIDropDownMenuTemplate" parent="DropdownFrame">
+						<Size x="100" y="30" />
+						<Anchors>
+							<Anchor x="-65" y="-44" point="TOPRIGHT" relativeTo="DropdownFrame" />
+						</Anchors>
+						<KeyValues>
+							<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" keyType="string" type="global" />
+						</KeyValues>
+						<Scripts>
+							<OnLoad>
+								self:SetPoint("CENTER");
+								UIDropDownMenu_Initialize(ItemTypeDropdown, InitializeItemTypeDropdown);
+								UIDropDownMenu_SetSelectedID(ItemTypeDropdown, 1);
+								UIDropDownMenu_JustifyText(ItemTypeDropdown, "LEFT");
+								UIDropDownMenu_SetAnchor(ItemTypeDropdown, 25, 0, "lEFT")
+							</OnLoad>
+						</Scripts>
+					</Frame>
+				</Frames>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad inherit="prepend">
+				self:RegisterForDrag("LeftButton")
+				OnLoadDB()
+			</OnLoad>
+			<OnDragStart>
+				self:GetParent():StartMoving()
+				self:StartMoving()
+			</OnDragStart>
+			<OnDragStop>
+				self:GetParent():StopMovingOrSizing()
+				self:StopMovingOrSizing()
+			</OnDragStop>
+			<OnShow>
+				OnShowDB()
+			</OnShow>
+			<OnHide>
+				OnHideDB()
+			</OnHide>
+		</Scripts>
+	</Frame>
+</Ui>

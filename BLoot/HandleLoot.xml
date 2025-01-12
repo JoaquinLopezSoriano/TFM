@@ -1,0 +1,260 @@
+<Ui xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="HandleLoot.lua" />
+	<Frame name="HandleLootFrame" parentKey="Child" parent="MainFrame" movable="true" enableMouse="true" enableMouseClicks="true" enableMouseMotion="true">
+		<Size x="686" y="600" />
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<KeyValues>
+			<KeyValue key="backdropInfo" value="BACKDROP_GOLD_DIALOG_32_32" keyType="string" type="global" />
+		</KeyValues>
+		<Frames>
+			<Button name="YellButton" inherits="UIPanelButtonTemplate" parent="HandleLootFrame" enableMouse="true" enableMouseClicks="true" text="Yell Item">
+				<Size x="140" y="52" />
+				<Anchors>
+					<Anchor x="52" y="-161" point="CENTER" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						YellItem()
+					</OnClick>
+					<OnLoad>
+						self:Disable()
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Frame name="IconEquipFrame" inherits="TranslucentFrameTemplate" parent="HandleLootFrame" movable="true" enableMouse="true" enableMouseClicks="true" enableMouseMotion="true">
+				<Size x="123" y="116" />
+				<Anchors>
+					<Anchor x="259" y="-193" point="CENTER" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" keyType="string" type="global" />
+				</KeyValues>
+				<Layers>
+					<Layer>
+						<Texture name="IconEquipTexture">
+							<Size x="99" y="89" />
+							<Anchors>
+								<Anchor x="12" y="-12" point="TOPLEFT" />
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnReceiveDrag>
+						DragEquip(self)
+					</OnReceiveDrag>
+					<OnEnter>
+						DragEquip(self)
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide()
+					</OnLeave>
+					<OnMouseDown>
+						ResetIcon(self, button)
+					</OnMouseDown>
+				</Scripts>
+			</Frame>
+			<Frame name="InfoFrame" inherits="MenuTemplateBase" parent="HandleLootFrame">
+				<Size x="356" y="116" />
+				<Anchors>
+					<Anchor x="320" y="-40" point="TOPLEFT" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" keyType="string" type="global" />
+				</KeyValues>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="PlayerNameText" inherits="GameFontNormal" text="Player Name: " justifyH="RIGHT">
+							<Size x="110" y="20" />
+							<Anchors>
+								<Anchor x="3" y="-7" point="TOPLEFT" />
+							</Anchors>
+						</FontString>
+						<FontString name="PlayerNameEditText" inherits="GameFontNormal" text="---" justifyH="LEFT">
+							<Size x="224" y="20" />
+							<Anchors>
+								<Anchor x="120" y="-7" point="TOPLEFT" />
+							</Anchors>
+							<Color r="1" g="1" b="1" />
+						</FontString>
+						<FontString name="LootEditText" inherits="GameFontNormal" text="---" justifyH="LEFT">
+							<Size x="224" y="20" />
+							<Anchors>
+								<Anchor x="120" y="-44" point="TOPLEFT" />
+							</Anchors>
+							<Color r="1" g="1" b="1" />
+						</FontString>
+						<FontString name="RaidDifficultyString" inherits="GameFontNormal" text="Raid Difficulty:" justifyH="RIGHT">
+							<Size x="110" y="20" />
+							<Anchors>
+								<Anchor x="3" y="-80" point="TOPLEFT" />
+							</Anchors>
+						</FontString>
+						<FontString name="RaidDifficultyEditString" inherits="GameFontNormal" text="---" justifyH="LEFT">
+							<Size x="224" y="20" />
+							<Anchors>
+								<Anchor x="120" y="-80" point="TOPLEFT" />
+							</Anchors>
+							<Color r="1" g="1" b="1" />
+						</FontString>
+						<FontString name="LootListText" inherits="GameFontNormal" text="Loot:">
+							<Size x="78" y="20" />
+							<Anchors>
+								<Anchor x="50" y="-47" point="TOPLEFT" />
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame name="LootListFrame" inherits="BackdropTemplate" parent="HandleLootFrame">
+				<Size x="356" y="250" />
+				<Anchors>
+					<Anchor x="153" y="7" point="CENTER" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" keyType="string" type="global" />
+				</KeyValues>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="LootListString" inherits="GameFontNormalLarge2" text="Loot List">
+							<Size x="80" y="20" />
+							<Anchors>
+								<Anchor x="-3" y="-18" point="TOP" />
+							</Anchors>
+						</FontString>
+						<FontString name="NameLootListString" inherits="GameFontNormal" text="Player Name">
+							<Size x="80" y="20" />
+							<Anchors>
+								<Anchor x="223" y="-47" point="TOPLEFT" />
+							</Anchors>
+						</FontString>
+						<FontString name="LootListText" inherits="GameFontNormal" text="Loot:">
+							<Size x="78" y="20" />
+							<Anchors>
+								<Anchor x="52" y="-47" point="TOPLEFT" />
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<ScrollFrame name="LootListScrollFrame" inherits="UIPanelScrollFrameTemplate" parent="LootListFrame">
+						<Size x="299" y="164" />
+						<Anchors>
+							<Anchor x="17" y="-73" point="TOPLEFT" />
+						</Anchors>
+					</ScrollFrame>
+				</Frames>
+			</Frame>
+			<Frame name="RankListFrame" inherits="BackdropTemplate" parent="HandleLootFrame">
+				<Size x="300" y="550" />
+				<Anchors>
+					<Anchor x="12" y="-12" point="LEFT" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" keyType="string" type="global" />
+				</KeyValues>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="RankListString" inherits="GameFontNormalLarge2" text="Player List">
+							<Size x="140" y="24" />
+							<Anchors>
+								<Anchor x="5" y="-20" point="TOP" />
+							</Anchors>
+						</FontString>
+						<FontString name="LootedNString" inherits="GameFontNormal" text="Nº Looted Items">
+							<Size x="100" y="20" />
+							<Anchors>
+								<Anchor x="-40" y="-85" point="TOPRIGHT" />
+							</Anchors>
+						</FontString>
+						<FontString name="PlayerString" inherits="GameFontNormal" text="Player Name">
+							<Size x="100" y="20" />
+							<Anchors>
+								<Anchor x="20" y="-85" point="TOPLEFT" />
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<ScrollFrame name="RankListScrollFrame" inherits="UIPanelScrollFrameTemplate" parent="RankListFrame">
+						<Size x="240" y="430" />
+						<Anchors>
+							<Anchor x="20" y="-45" point="LEFT" relativeTo="RankListFrame" />
+						</Anchors>
+					</ScrollFrame>
+					<EditBox name="FilterEditBox" inherits="InputBoxTemplate">
+						<Size x="111" y="10" />
+						<Anchors>
+							<Anchor x="60" y="-60" point="TOPLEFT" />
+						</Anchors>
+						<Frames>
+							<Button name="ResetFilterTextButton" inherits="UIButtonTemplate" parent="FilterEditBox" frameLevel="-1" text="">
+								<Size x="15" y="15" />
+								<Anchors>
+									<Anchor x="-5" point="RIGHT" relativeTo="FilterEditBox" />
+								</Anchors>
+								<Scripts>
+									<OnClick>
+										ResetEditBoxText()
+									</OnClick>
+								</Scripts>
+								<NormalTexture atlas="auctionhouse-ui-filter-redx" />
+								<HighlightTexture alpha="0.4" alphaMode="ADD" atlas="auctionhouse-ui-filter-redx" />
+							</Button>
+						</Frames>
+						<Scripts>
+							<OnLoad>
+								self:Disable()
+							</OnLoad>
+							<OnEnter>
+								EnableEditBox()
+							</OnEnter>
+							<OnLeave>
+								self:Disable()
+							</OnLeave>
+							<OnTextChanged>
+								SetFilterText()
+							</OnTextChanged>
+						</Scripts>
+					</EditBox>
+				</Frames>
+			</Frame>
+			<Button name="AssignItemButton" inherits="UIPanelButtonTemplate" parent="HandleLootFrame" text="Assign Item">
+				<Size x="140" y="52" />
+				<Anchors>
+					<Anchor x="52" y="-225" point="CENTER" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						AssignItem()
+					</OnClick>
+					<OnLoad>
+						self:Disable()
+					</OnLoad>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad inherit="prepend">
+				self:RegisterForDrag("LeftButton")
+				OnLoad()
+			</OnLoad>
+			<OnDragStart>
+				self:GetParent():StartMoving()
+				self:StartMoving()
+			</OnDragStart>
+			<OnDragStop>
+				self:GetParent():StopMovingOrSizing()
+				self:StopMovingOrSizing()
+			</OnDragStop>
+			<OnEnable>
+				OnEnable()
+			</OnEnable>
+			<OnDisable>
+				OnDisable()
+			</OnDisable>
+		</Scripts>
+	</Frame>
+</Ui>

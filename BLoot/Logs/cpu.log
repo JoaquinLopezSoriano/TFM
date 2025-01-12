@@ -1,0 +1,6 @@
+1/2 01:56:44.493  vendor: AuthenticAMD
+1/2 01:56:44.493  branding: AMD Ryzen 7 5800H with Radeon Graphics         
+1/2 01:56:44.493  features: lahf64 cmpxchg16b sse sse2 sse3 ssse3 sse41 sse42 avx avx2 aesni clmul sha rdrand 
+1/2 01:56:44.493  sockets: 1
+1/2 01:56:44.493  cores: 8
+1/2 01:56:44.493  threads: 16

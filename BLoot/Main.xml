@@ -1,0 +1,87 @@
+<Ui xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Main.lua" />
+	<Frame name="MainFrame" inherits="BackdropTemplate" toplevel="true" movable="true" frameLevel="1" enableMouseClicks="true">
+		<Size x="686" y="600" />
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<KeyValues>
+			<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" keyType="string" type="global" />
+		</KeyValues>
+		<Layers>
+			<Layer>
+				<Texture name="myFrameHeader" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size>
+						<AbsDimension x="356" y="64" />
+					</Size>
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset>
+								<AbsDimension x="0" y="12" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString name="HeaderFontString" inherits="GameFontNormal" text="BLoot">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="myFrameHeader">
+							<Offset>
+								<AbsDimension x="0" y="-14" />
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="MainFrameTabLoot" inherits="CharacterFrameTabTemplate" id="1" text="                  Loot                  ">
+				<Anchors>
+					<Anchor x="10" y="-30" point="BOTTOMLEFT" relativeTo="MainFrame" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						PanelTemplates_SetTab(MainFrame, 1);
+						HandleLootFrame:Show();
+						ManageDBFrame:Hide();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MainFrameTabDB" inherits="CharacterFrameTabTemplate" id="2" text="                Database                ">
+				<Anchors>
+					<Anchor x="10" y="-30" point="BOTTOMLEFT" relativeTo="MainFrame" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						PanelTemplates_SetTab(MainFrame, 2);
+						HandleLootFrame:Hide();
+						ManageDBFrame:Show();
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad inherit="prepend">
+				PanelTemplates_SetNumTabs(MainFrame, 2);
+				PanelTemplates_SetTab(MainFrame, 1);
+				self:RegisterForDrag("LeftButton")
+			</OnLoad>
+			<OnDragStop>
+				self:StopMovingOrSizing()
+			</OnDragStop>
+			<OnDragStart>
+				self:StartMoving()
+			</OnDragStart>
+		</Scripts>
+	</Frame>
+	<Button name="CloseButton" inherits="UIPanelCloseButton" parent="MainFrame" text="Button1">
+		<Size x="52" y="48" />
+		<Anchors>
+			<Anchor x="13" y="12" point="TOPRIGHT" relativeTo="MainFrame" />
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				ToggleMainFrame(self, button)
+			</OnClick>
+		</Scripts>
+	</Button>
+</Ui>
